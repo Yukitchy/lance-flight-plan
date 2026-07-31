@@ -25,24 +25,25 @@ No build step, no dependencies. `index.html` + `app.js` + `img/`.
 | museum.jpg | U.S. Air Force / Ken LaRock | Public domain |
 | space.jpg | U.S. Air Force | Public domain |
 
-## Place photo credits (see / eat cards)
-Eleven of the thirteen show the actual place. Two are illustrative photos of the
-signature dish, labelled as such on the card.
+## Place photo credits
 
-| Place | Credit | Licence | Actual place? |
+**SEE cards** show the actual place. **EAT cards** show food — Marion's is that
+restaurant's own pizza; the others are freely-licensed photos of the dish to order.
+
+| Card | Photo shows | Credit | Licence |
 |---|---|---|---|
-| Huffman Prairie Flying Field | Ismael Laos | CC BY-SA 4.0 | yes |
-| Carillon Historical Park | Nyttend | Public domain | yes |
-| The Wright Cycle Company | Cory Hartman | CC BY-SA 3.0 | yes |
-| America's Packard Museum | Antony-22 | CC BY-SA 4.0 | yes |
-| Wright "B" Flyer Inc. | Jtesla16 | Public domain | yes |
-| Hawthorn Hill | Zeist85 | Public domain | yes |
-| Marion's Piazza | Jtesla16 (J. Miers) | CC BY-SA 3.0 | yes |
-| Giovanni's Pizzeria | loganrickert | CC BY 2.0 | yes |
-| Young's Jersey Dairy | Todd Fowler | CC BY-SA 2.0 | yes |
-| 2nd Street Market | Texas141 | CC BY-SA 3.0 | yes |
-| The Pine Club | Valereee | CC0 | yes |
-| Fairborn Family Diner | Evan-Amos | Public domain | no — diner breakfast |
-| Taste of Jerusalem | Andy Li | CC0 | no — shawarma wrap |
+| Huffman Prairie Flying Field | the site | Ismael Laos | CC BY-SA 4.0 |
+| Carillon Historical Park | Wright Hall | Nyttend | Public domain |
+| The Wright Cycle Company | the building | Cory Hartman | CC BY-SA 3.0 |
+| America's Packard Museum | the building | Antony-22 | CC BY-SA 4.0 |
+| Wright "B" Flyer Inc. | the hangar | Jtesla16 | Public domain |
+| Hawthorn Hill | the house | Zeist85 | Public domain |
+| Marion's Piazza | **its own pizza** | Jtesla16 (J. Miers) | CC BY-SA 3.0 |
+| Fairborn Family Diner | diner breakfast | Evan-Amos | Public domain |
+| Taste of Jerusalem | shawarma wrap | Andy Li | CC0 |
+| Giovanni's Pizzeria | spaghetti & meatballs | D. Laird | CC BY 2.0 |
+| Young's Jersey Dairy | ice cream cone | Sarah Stierch | CC0 |
+| 2nd Street Market | market stall | PattayaPatrol | CC BY-SA 4.0 |
+| The Pine Club | ribeye steak | Socket0 | CC0 |
 
 Weather data: [Open-Meteo](https://open-meteo.com/) (CC BY 4.0).

@@ -322,8 +322,9 @@ var PLACES = {
 
 /* Keyed by the exact place name above, so reordering PLACES can never silently
    attach the wrong photo to the wrong business.
-   `actual: false` means the photo shows the signature dish rather than the shop
-   itself — those cards carry a visible label so nobody is misled. */
+   SEE cards show the place. EAT cards show food — Marion's is that restaurant's
+   own pizza; the rest are freely-licensed photos of the dish to order there.
+   `actual` records which is which for the credits table in README.md. */
 var PHOTOS = {
   'Huffman Prairie Flying Field':
     { f: 'huffman-prairie', actual: true, alt: 'The Wright brothers hangar replica on Huffman Prairie Flying Field', credit: 'Ismael Laos · CC BY-SA 4.0' },
@@ -338,19 +339,19 @@ var PHOTOS = {
   'Hawthorn Hill':
     { f: 'hawthorn-hill', actual: true, alt: "Hawthorn Hill, Orville Wright's mansion in Oakwood", credit: 'Zeist85 · Public domain' },
   "Marion's Piazza":
-    { f: 'marions', actual: true, alt: "The Marion's Piazza sign, Dayton", credit: 'Jtesla16 (J. Miers) · CC BY-SA 3.0' },
+    { f: 'marions-food', actual: true, alt: "Marion's Piazza supreme pizza: Dayton-style thin crust, cut into squares", credit: 'Jtesla16 (J. Miers) · CC BY-SA 3.0' },
   'Fairborn Family Diner & Restaurant':
     { f: 'fairborn-diner', actual: false, alt: 'A classic American diner breakfast: eggs, bacon, home fries and toast', credit: 'Evan-Amos · Public domain' },
   'Taste of Jerusalem':
     { f: 'taste-jerusalem', actual: false, alt: 'A chicken shawarma wrap', credit: 'Andy Li · CC0' },
   "Giovanni's Pizzeria e Ristorante Italiano":
-    { f: 'giovannis', actual: true, alt: "Giovanni's Italian Ristorante storefront, Fairborn", credit: 'loganrickert · CC BY 2.0' },
+    { f: 'giovannis-food', actual: false, alt: 'Spaghetti and meatballs in marinara sauce with parmesan', credit: 'D. Laird · CC BY 2.0' },
   "Young's Jersey Dairy":
-    { f: 'youngs', actual: true, alt: "The red barn at Young's Jersey Dairy, Yellow Springs", credit: 'Todd Fowler · CC BY-SA 2.0' },
+    { f: 'youngs-food', actual: false, alt: 'A waffle cone with two scoops of dark chocolate chip ice cream', credit: 'Sarah Stierch · CC0' },
   '2nd Street Market':
-    { f: 'second-street', actual: true, alt: '2nd Street Public Market, Dayton', credit: 'Texas141 · CC BY-SA 3.0' },
+    { f: 'second-street-food', actual: false, alt: 'A covered market stall piled with fresh vegetables and fruit', credit: 'PattayaPatrol · CC BY-SA 4.0' },
   'The Pine Club':
-    { f: 'pine-club', actual: true, alt: 'The entrance of The Pine Club steakhouse, Dayton', credit: 'Valereee · CC0' }
+    { f: 'pine-club-food', actual: false, alt: 'A grilled ribeye steak with thick-cut chips and béarnaise sauce', credit: 'Socket0 · CC0' }
 };
 
 function renderPlaces() {
