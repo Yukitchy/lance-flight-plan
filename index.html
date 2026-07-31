@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lance's Flight Plan — Flite Fest 2026</title>
+<meta name="description" content="A flight plan for Lance: Flite Fest 2026 at the National Museum of the U.S. Air Force, Dayton, Ohio — 6–9 August 2026.">
+<link rel="preconnect" href="https://api.open-meteo.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#1B6FA8;--sky-deep:#0B3F63;--sun:#E8862A;
+  --ink:#142A38;--sub:#5A7185;--line:#CBD9E4;
+  --paper:#EFF4F8;--card:#FFFFFF;--card-2:#F7FAFC;
+  --good:#2E7D52;--warn:#B4762A;--bad:#B4453A;
+  --shadow-1:rgba(20,60,90,.09);--shadow-2:rgba(20,60,90,.14);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --disp:"Barlow Condensed",-apple-system,BlinkMacSystemFont,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --jp:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.4,.64,1);
+}
+@media (prefers-color-scheme:dark){
+  :root{--sky:#5FA8DA;--sky-deep:#9CCBEA;--sun:#F0A055;--ink:#E6EFF6;--sub:#9BB0C1;
+    --line:#28455C;--paper:#0C1E2C;--card:#12293A;--card-2:#173347;
+    --good:#6FC894;--warn:#E0AC5E;--bad:#E58278;
+    --shadow-1:rgba(0,0,0,.32);--shadow-2:rgba(0,0,0,.45)}
+}
+:root[data-theme="dark"]{--sky:#5FA8DA;--sky-deep:#9CCBEA;--sun:#F0A055;--ink:#E6EFF6;--sub:#9BB0C1;
+  --line:#28455C;--paper:#0C1E2C;--card:#12293A;--card-2:#173347;
+  --good:#6FC894;--warn:#E0AC5E;--bad:#E58278;
+  --shadow-1:rgba(0,0,0,.32);--shadow-2:rgba(0,0,0,.45)}
+:root[data-theme="light"]{--sky:#1B6FA8;--sky-deep:#0B3F63;--sun:#E8862A;--ink:#142A38;--sub:#5A7185;
+  --line:#CBD9E4;--paper:#EFF4F8;--card:#FFFFFF;--card-2:#F7FAFC;
+  --good:#2E7D52;--warn:#B4762A;--bad:#B4453A;
+  --shadow-1:rgba(20,60,90,.09);--shadow-2:rgba(20,60,90,.14)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  line-height:1.72;-webkit-font-smoothing:antialiased}
+body,p,li,td,th,div,span,b,small,summary,button,a,h1,h2,h3,h4{
+  word-break:auto-phrase;line-break:strict;overflow-wrap:anywhere}
+h1,h2,h3,h4,.eyebrow,.stat b,.tm,.wx b{text-wrap:balance}
+p{text-wrap:pretty}
+a{color:var(--sky);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--sun);outline-offset:3px;border-radius:3px}
+img{max-width:100%;display:block}
+
+/* ---- language toggle: two DOM copies, CSS switches ---- */
+.x-ja{display:none}
+html.lang-ja .x-en{display:none}
+html.lang-ja .x-ja{display:revert}
+.x-ja{font-family:var(--jp);line-height:2.2}
+
+ruby{ruby-position:over}
+rt{font-size:.58em;font-weight:500;letter-spacing:.02em;color:var(--sky);opacity:.95}
+.j{font-family:var(--jp);line-height:2.2}
+.romaji{font-family:var(--mono);font-size:11.5px;color:var(--sun);letter-spacing:.05em;font-weight:600}
+
+.wrap{max-width:900px;margin:0 auto;padding:0 22px}
+
+/* ---- top bar ---- */
+.bar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--card) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:9px;padding-bottom:9px}
+.bar .who{font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-weight:700;color:var(--sub)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--card-2);gap:2px}
+.seg button{appearance:none;border:0;background:transparent;cursor:pointer;color:var(--sub);
+  font:600 12px/1 var(--sans);padding:8px 13px;border-radius:999px;
+  transition:background .14s ease,color .14s ease,transform .12s var(--spring)}
+.seg button.on{background:var(--sky);color:#fff}
+.seg button:hover:not(.on){transform:translateY(-1px);color:var(--ink)}
+.seg button.jp{font-family:var(--jp);font-weight:700}
+
+/* ---- hero ---- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+  background:linear-gradient(178deg,#7FC0E8 0%,#A9D6F0 42%,#DCEEF8 100%);color:#0B3F63}
+@media (prefers-color-scheme:dark){.hero{background:linear-gradient(178deg,#123049 0%,#1A4666 48%,#0C1E2C 100%);color:#DCEEF8}}
+:root[data-theme="dark"] .hero{background:linear-gradient(178deg,#123049 0%,#1A4666 48%,#0C1E2C 100%);color:#DCEEF8}
+:root[data-theme="light"] .hero{background:linear-gradient(178deg,#7FC0E8 0%,#A9D6F0 42%,#DCEEF8 100%);color:#0B3F63}
+.hero .wrap{position:relative;z-index:2;padding-top:50px;padding-bottom:38px}
+.skyart{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.hero-in{animation:heroIn .8s var(--ease) both}
+.hero-in.d1{animation-delay:.08s}.hero-in.d2{animation-delay:.18s}.hero-in.d3{animation-delay:.3s}
+@keyframes heroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.tailno{font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;font-weight:600;opacity:.78;margin:0 0 12px}
+h1{font-family:var(--disp);font-size:clamp(52px,11vw,104px);line-height:.9;letter-spacing:-.01em;
+  font-weight:700;margin:0;text-transform:uppercase}
+.sub-t{font-size:clamp(16px,2.4vw,21px);font-weight:700;margin:14px 0 0;letter-spacing:-.01em;opacity:.9}
+.where{font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;margin:14px 0 0;font-weight:600}
+.instr{margin-top:24px;display:inline-flex;gap:2px;padding:6px;border-radius:14px;
+  background:rgba(255,255,255,.66);border:1px solid rgba(11,63,99,.18);backdrop-filter:blur(6px);
+  box-shadow:0 2px 4px var(--shadow-1),0 14px 34px var(--shadow-2)}
+@media (prefers-color-scheme:dark){.instr{background:rgba(9,28,44,.6);border-color:rgba(156,203,234,.22)}}
+:root[data-theme="dark"] .instr{background:rgba(9,28,44,.6);border-color:rgba(156,203,234,.22)}
+:root[data-theme="light"] .instr{background:rgba(255,255,255,.66);border-color:rgba(11,63,99,.18)}
+.cell{padding:8px 16px 9px;text-align:center;min-width:78px}
+.cell+.cell{border-left:1px dashed rgba(127,127,127,.45)}
+.cell b{display:block;font-family:var(--mono);font-size:30px;line-height:1.1;font-weight:700;font-variant-numeric:tabular-nums}
+.cell span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;opacity:.7;font-weight:600}
+.instr-note{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;margin:10px 0 0;opacity:.72;font-weight:600}
+
+/* ---- sections ---- */
+section{padding:54px 0 4px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;font-weight:700;color:var(--sun);margin:0 0 10px}
+h2{font-size:clamp(23px,3.6vw,31px);line-height:1.24;letter-spacing:-.015em;font-weight:800;margin:0 0 14px}
+h2 .x-ja{font-size:.86em}
+p.lead{font-size:17px;color:var(--sub);margin:0 0 18px;max-width:62ch}
+p.lead b{color:var(--ink)}
+p.lead .x-ja{color:var(--sub)}
+
+.hero-shot{margin:24px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background:var(--card);box-shadow:0 1px 2px var(--shadow-1)}
+.hero-shot img{width:100%;aspect-ratio:21/9;object-fit:cover}
+.hero-shot figcaption{padding:11px 16px 13px;font-size:13.5px;color:var(--sub);background:var(--card)}
+.hero-shot .cr{display:block;font-family:var(--mono);font-size:10.5px;opacity:.7;margin-top:4px;letter-spacing:.02em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 14px;box-shadow:0 1px 2px var(--shadow-1)}
+.stat b{display:block;font-family:var(--mono);font-size:26px;font-weight:700;color:var(--sky);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{display:block;font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.45}
+
+/* ---- weather ---- */
+.wx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.wx{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;
+  box-shadow:0 1px 2px var(--shadow-1);text-align:center}
+.wx .dow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;font-weight:700;color:var(--sub)}
+.wx .ic{font-size:30px;line-height:1.5;margin:2px 0}
+.wx .t{font-family:var(--mono);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.wx .t small{font-size:13px;color:var(--sub);font-weight:600}
+.wx .meta{font-size:12px;color:var(--sub);margin:5px 0 0;line-height:1.6}
+.wx .verdict{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid currentColor}
+.v-good{color:var(--good)}.v-ok{color:var(--warn)}.v-bad{color:var(--bad)}
+.wx-note{font-size:13.5px;color:var(--sub);margin:14px 0 0}
+.wx-load{font-family:var(--mono);font-size:12px;color:var(--sub);letter-spacing:.06em}
+
+/* ---- hobby match ---- */
+.match{display:grid;grid-template-columns:1fr auto 1fr;margin-top:22px;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.match .side{padding:20px 22px}
+.match .side:last-child{background:var(--card-2)}
+.match .vs{display:grid;place-items:center;padding:0 6px;background:var(--card-2);
+  border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.match .vs span{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;color:var(--sun)}
+.match h4{margin:0 0 4px;font-size:11.5px;font-family:var(--mono);letter-spacing:.13em;color:var(--sub);font-weight:700}
+.match .big{font-size:20px;font-weight:800;letter-spacing:-.015em;margin:0 0 6px;line-height:1.3}
+.match p{margin:0;font-size:14.5px;color:var(--sub)}
+
+/* ---- day plan ---- */
+ol.day{list-style:none;margin:22px 0 0;padding:0}
+ol.day li{display:grid;grid-template-columns:88px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+ol.day li:last-child{border-bottom:1px solid var(--line)}
+.tm{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--sun);letter-spacing:.04em;padding-top:3px}
+.day h3{margin:0 0 4px;font-size:17px;font-weight:750;letter-spacing:-.01em}
+.day p{margin:0;color:var(--sub);font-size:15px}
+
+/* ---- find cards with photos ---- */
+.finds{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+.find{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:0 1px 2px var(--shadow-1);transition:transform .16s var(--ease),box-shadow .16s ease;
+  display:flex;flex-direction:column}
+.find:hover{transform:translateY(-3px);box-shadow:0 10px 26px var(--shadow-2)}
+.find figure{margin:0;background:var(--card-2);aspect-ratio:16/10;overflow:hidden}
+.find figure img{width:100%;height:100%;object-fit:cover}
+.find .body{padding:16px 18px 17px;display:flex;flex-direction:column;flex:1}
+.find .no{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;color:var(--sub);font-weight:700;margin:0}
+.find h3{margin:5px 0 3px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.find .cap{font-family:var(--mono);font-size:10.5px;color:var(--sun);letter-spacing:.05em;font-weight:600;margin:0 0 9px;line-height:1.55}
+.find .txt{margin:0;font-size:14.5px;color:var(--sub)}
+.word{margin-top:auto;padding-top:13px;border-top:1px dashed var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 10px}
+.word .k{font-family:var(--jp);font-size:21px;font-weight:700;line-height:2.15}
+.word .gloss{font-size:13.5px;color:var(--sub)}
+.credit{font-size:10.5px;color:var(--sub);opacity:.75;padding:0 18px 12px;margin:0;font-family:var(--mono);letter-spacing:.02em}
+
+/* ---- videos ---- */
+.vids{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.vid{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px var(--shadow-1)}
+.vid .frame{aspect-ratio:16/9;background:#000}
+.vid iframe{width:100%;height:100%;border:0;display:block}
+.vid .vb{padding:13px 15px 15px}
+.vid h3{margin:0 0 3px;font-size:15px;font-weight:750;letter-spacing:-.01em}
+.vid p{margin:0;font-size:13px;color:var(--sub)}
+
+/* ---- prep / study ---- */
+.prep{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+.pk{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 19px}
+.pk h3{margin:0 0 6px;font-size:16px;font-weight:780;letter-spacing:-.01em;display:flex;align-items:baseline;gap:9px}
+.pk h3 .n{font-family:var(--mono);font-size:11px;color:var(--sun);letter-spacing:.1em;font-weight:700;flex:none}
+.pk p{margin:0;font-size:14.5px;color:var(--sub)}
+.pk p+p{margin-top:8px}
+
+/* ---- grammar rows ---- */
+.gram{margin-top:22px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.g{padding:17px 20px}
+.g+.g{border-top:1px solid var(--line)}
+.g:nth-child(even){background:var(--card-2)}
+.g .you{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;font-weight:700;color:var(--sub);margin:0 0 7px}
+.g .l{font-family:var(--jp);font-size:20px;font-weight:700;line-height:2.2;margin:0}
+.g .gloss{margin:5px 0 0;font-size:14.5px;color:var(--sub)}
+.g .gloss b{color:var(--ink)}
+
+/* ---- phrases ---- */
+.ph-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}
+.ph{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+.ph .l{font-family:var(--jp);font-size:20px;font-weight:700;line-height:2.2;margin:0}
+.ph .gloss{margin:4px 0 0;font-size:14px;color:var(--sub)}
+
+/* ---- places ---- */
+.places{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+.place{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 19px}
+.place .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.place h3{margin:0;font-size:16.5px;font-weight:790;letter-spacing:-.015em}
+.place .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;font-weight:700;color:var(--sun);
+  border:1px solid var(--line);border-radius:999px;padding:4px 9px;flex:none}
+.place .addr{font-family:var(--mono);font-size:11.5px;color:var(--sub);margin:7px 0 0;line-height:1.6}
+.place .why{margin:9px 0 0;font-size:14.5px;color:var(--sub)}
+.place .meta{margin:9px 0 0;font-size:12.5px;color:var(--sub);font-family:var(--mono);letter-spacing:.02em}
+.place a.go{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  font-weight:700;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 13px;
+  background:var(--card-2);transition:transform .12s var(--spring),border-color .12s ease}
+.place a.go:hover{transform:translateY(-2px);border-color:var(--sun)}
+
+/* ---- quiet blocks ---- */
+.quiet{margin-top:24px;background:var(--card-2);border:1px solid var(--line);border-left:3px solid var(--sky);
+  border-radius:0 12px 12px 0;padding:20px 22px}
+.quiet.warm{border-left-color:var(--sun)}
+.quiet h3{margin:0 0 8px;font-size:16.5px;font-weight:760}
+.quiet p{margin:0 0 10px;font-size:15px;color:var(--sub)}
+.quiet p:last-child{margin-bottom:0}
+.quiet blockquote{margin:0 0 12px;padding:0 0 0 14px;border-left:2px solid var(--line);
+  font-size:16px;font-style:italic;color:var(--ink)}
+
+/* ---- checklist ---- */
+ul.check{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:3px}
+ul.check li{display:flex;gap:13px;align-items:flex-start;padding:13px 16px;background:var(--card);
+  border:1px solid var(--line);border-radius:11px}
+ul.check input{margin:5px 0 0;width:17px;height:17px;accent-color:var(--sun);flex:none}
+ul.check label{font-size:15px;cursor:pointer}
+ul.check .k{font-family:var(--jp);font-weight:700;line-height:2.1}
+
+footer{margin-top:58px;border-top:1px solid var(--line);background:var(--card);padding:30px 0 44px}
+footer p{font-size:14px;color:var(--sub);margin:0 0 8px}
+footer .sig{font-family:var(--jp);font-size:16px;color:var(--ink);font-weight:700;margin-top:18px;line-height:2.2}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.links a{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-decoration:none;font-weight:600;
+  border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:var(--card-2);
+  transition:transform .12s var(--spring),border-color .12s ease}
+.links a:hover{transform:translateY(-2px);border-color:var(--sun)}
+
+/* Reveal on scroll. Hidden state is applied by JS only, so if JS never runs
+   (or the observer fails) every section stays visible. Content first. */
+.reveal{transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.reveal.pending{opacity:0;transform:translateY(16px)}
+
+@media (max-width:820px){
+  .finds,.ph-grid,.prep,.places,.wx-grid{grid-template-columns:1fr 1fr}
+  .vids{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .stats,.finds,.ph-grid,.prep,.places{grid-template-columns:1fr}
+  .wx-grid{grid-template-columns:1fr 1fr}
+  ol.day li{grid-template-columns:1fr;gap:3px}
+  .match{grid-template-columns:1fr}
+  .match .vs{padding:7px 0;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .cell{min-width:62px;padding:8px 10px 9px}
+  .cell b{font-size:24px}
+  .bar .who{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap">
+    <span class="who">FLIGHT PLAN · LANCE · AUG 2026</span>
+    <div class="seg" role="group" aria-label="Language">
+      <button id="btn-en" class="on" type="button">English</button>
+      <button id="btn-ja" class="jp" type="button">やさしい日本語</button>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <svg class="skyart" viewBox="0 0 880 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs><radialGradient id="sunglow" cx="82%" cy="16%" r="34%">
+      <stop offset="0%" stop-color="#FFE7B8" stop-opacity=".85"/>
+      <stop offset="100%" stop-color="#FFE7B8" stop-opacity="0"/></radialGradient></defs>
+    <rect width="880" height="420" fill="url(#sunglow)"/>
+    <g fill="#FFFFFF" opacity=".5">
+      <ellipse cx="118" cy="86" rx="52" ry="17"/><ellipse cx="152" cy="76" rx="34" ry="20"/>
+      <ellipse cx="690" cy="132" rx="60" ry="16"/><ellipse cx="655" cy="124" rx="32" ry="19"/>
+    </g>
+    <g opacity=".16" fill="#0B3F63">
+      <path d="M0 392h190l26-30h150l26 30h132l30-36h150l30 36h146v34H0z"/>
+    </g>
+    <g transform="translate(596 214) rotate(-11) scale(.92)" fill="#0B3F63" opacity=".34">
+      <path d="M0 12h146l16 8-16 8H0z"/><path d="M52 20 22-32h20l44 52z"/>
+      <path d="M52 20 22 72h20l44-52z"/><path d="M140 20 122-14h13l19 34z"/>
+      <rect x="132" y="4" width="6" height="16" rx="2"/>
+    </g>
+    <circle transform="translate(596 214) rotate(-11) scale(.92)" cx="150" cy="20" r="7" fill="#E8862A"/>
+  </svg>
+
+  <div class="wrap">
+    <p class="tailno hero-in">MISSION BRIEF FOR LANCE · PREPARED BY YUUKI · 31 JUL 2026</p>
+    <h1 class="hero-in d1">Flite Fest<br>2026</h1>
+    <p class="sub-t hero-in d2">National Museum of the U.S. Air Force · Dayton, Ohio</p>
+    <p class="where hero-in d2">06–09 AUG 2026 &nbsp;·&nbsp; WRIGHT-PATTERSON AFB &nbsp;·&nbsp; 39.78°N 84.11°W</p>
+    <div class="instr hero-in d3">
+      <div class="cell"><b id="d">–</b><span>DAYS</span></div>
+      <div class="cell"><b id="h">–</b><span>HOURS</span></div>
+      <div class="cell"><b id="m">–</b><span>MINUTES</span></div>
+    </div>
+    <p class="instr-note hero-in d3" id="note">UNTIL THE GATES OPEN</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <!-- 01 -->
+  <section class="reveal">
+    <p class="eyebrow">01 · WHY THIS YEAR</p>
+    <h2><span class="x-en">Of all the years to go, you picked the big one.</span><span class="x-ja"><ruby>今年<rt>ことし</rt></ruby>は、とくべつな<ruby>年<rt>とし</rt></ruby>です。</span></h2>
+    <p class="lead">
+      <span class="x-en">Flite Fest normally happens in a field. This year Flite Test moved the entire event onto Wright-Patterson Air Force Base, at the world's largest military aviation museum — the biggest collaboration in Flite Test history. You will be flying foam board airplanes in the same place they parked the SR-71.</span>
+      <span class="x-ja">Flite Fest は、いつもは<ruby>広<rt>ひろ</rt></ruby>い<ruby>原<rt>はら</rt>っぱ</ruby>でやります。でも<ruby>今年<rt>ことし</rt></ruby>は、<ruby>空軍<rt>くうぐん</rt></ruby>の<ruby>基地<rt>きち</rt></ruby>でやります。ここには<ruby>世界<rt>せかい</rt></ruby>で<ruby>一番<rt>いちばん</rt></ruby>大きい<ruby>飛行機<rt>ひこうき</rt></ruby>の<ruby>博物館<rt>はくぶつかん</rt></ruby>があります。すごいことです。</span>
+    </p>
+    <p class="lead">
+      <span class="x-en">Running alongside it, 2–9 August, is the <b>DARPA Lift Challenge</b> — a $6.5 million heavy-lift drone competition. So in one week you get both ends of the hobby: a $12 hot-glued trainer, and machines built by engineering teams chasing six and a half million dollars. Same field. Same air.</span>
+      <span class="x-ja">おなじ<ruby>週<rt>しゅう</rt></ruby>に、<b>ドローンの<ruby>大会<rt>たいかい</rt></ruby></b>もあります。<ruby>賞金<rt>しょうきん</rt></ruby>は650<ruby>万<rt>まん</rt></ruby>ドルです。<ruby>安<rt>やす</rt></ruby>い<ruby>飛行機<rt>ひこうき</rt></ruby>と、とても<ruby>高<rt>たか</rt></ruby>い<ruby>機械<rt>きかい</rt></ruby>が、<ruby>同<rt>おな</rt></ruby>じ<ruby>空<rt>そら</rt></ruby>を<ruby>飛<rt>と</rt></ruby>びます。</span>
+    </p>
+    <figure class="hero-shot">
+      <img src="img/museum.jpg" alt="Aerial view of the four hangars of the National Museum of the U.S. Air Force" loading="lazy">
+      <figcaption><span class="x-en">All four hangars, from the air. You will be flying on this base.</span><span class="x-ja">4つのたてもの、<ruby>空<rt>そら</rt></ruby>から。この<ruby>基地<rt>きち</rt></ruby>で<ruby>飛<rt>と</rt></ruby>ばします。</span> <span class="cr">Photo: U.S. Air Force / Ken LaRock · Public domain</span></figcaption>
+    </figure>
+    <div class="stats">
+      <div class="stat"><b>360+</b><span><span class="x-en">aircraft on display</span><span class="x-ja"><ruby>飛行機<rt>ひこうき</rt></ruby>の<ruby>数<rt>かず</rt></ruby></span></span></div>
+      <div class="stat"><b>4</b><span><span class="x-en">hangars to walk</span><span class="x-ja">たてものの<ruby>数<rt>かず</rt></ruby></span></span></div>
+      <div class="stat"><b>19</b><span><span class="x-en">acres, all indoors</span><span class="x-ja">エーカー（ぜんぶ たてものの なか）</span></span></div>
+      <div class="stat"><b>$0</b><span><span class="x-en">admission &amp; parking</span><span class="x-ja">にゅうじょうりょうも ちゅうしゃも ただ</span></span></div>
+    </div>
+  </section>
+
+  <!-- 02 weather -->
+  <section class="reveal">
+    <p class="eyebrow">02 · WEATHER — LIVE</p>
+    <h2><span class="x-en">Can you actually fly? The forecast, updated every time you open this page.</span><span class="x-ja"><ruby>天気<rt>てんき</rt></ruby>よほう。<ruby>飛<rt>と</rt></ruby>ばせる<ruby>日<rt>ひ</rt></ruby>はどれ？</span></h2>
+    <p class="lead">
+      <span class="x-en">For RC flying, <b>wind matters more than rain.</b> Under 10 mph is comfortable, 10–15 mph is workable for a heavier plane, and above 15 mph a foam board trainer becomes a kite you do not control. These numbers are live for Dayton, Ohio.</span>
+      <span class="x-ja">RC<ruby>飛行機<rt>ひこうき</rt></ruby>は、<ruby>雨<rt>あめ</rt></ruby>より<b><ruby>風<rt>かぜ</rt></ruby>が<ruby>大事<rt>だいじ</rt></ruby></b>です。10マイルより<ruby>下<rt>した</rt></ruby>なら、とてもいいです。15マイルより<ruby>上<rt>うえ</rt></ruby>は、<ruby>難<rt>むずか</rt></ruby>しいです。</span>
+    </p>
+    <div class="wx-grid" id="wx"><p class="wx-load">LOADING FORECAST…</p></div>
+    <p class="wx-note">
+      <span class="x-en">Live data from Open-Meteo. Wind is the daily maximum, so mornings are usually calmer than this number.</span>
+      <span class="x-ja"><ruby>風<rt>かぜ</rt></ruby>の<ruby>数字<rt>すうじ</rt></ruby>は、その<ruby>日<rt>ひ</rt></ruby>で<ruby>一番<rt>いちばん</rt></ruby><ruby>強<rt>つよ</rt></ruby>い<ruby>風<rt>かぜ</rt></ruby>です。<ruby>朝<rt>あさ</rt></ruby>は、もっと<ruby>静<rt>しず</rt></ruby>かです。</span>
+    </p>
+  </section>
+
+  <!-- 03 hobby -->
+  <section class="reveal">
+    <p class="eyebrow">03 · WHY THIS IS ALREADY YOUR HOBBY</p>
+    <h2><span class="x-en">You have been doing Flite Test for years. You just did it to cars.</span><span class="x-ja">これは、あなたの<ruby>趣味<rt>しゅみ</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じです。</span></h2>
+    <p class="lead">
+      <span class="x-en">Last lesson you told me you took a <b>$10,000 car</b> and finished it for <b>$1,000 in two weeks</b> — and that the truck is at 70% with about a month to go. That instinct — cheap materials, your own hands, refusing to buy the finished thing — is <b>exactly</b> what the whole Flite Test culture is built on.</span>
+      <span class="x-ja">この<ruby>前<rt>まえ</rt></ruby>のレッスンで、あなたは<ruby>言<rt>い</rt></ruby>いました。「1<ruby>万<rt>まん</rt></ruby>ドルの<ruby>車<rt>くるま</rt></ruby>を、1000ドルで<ruby>直<rt>なお</rt></ruby>しました。2しゅうかんかかりました」。<ruby>安<rt>やす</rt></ruby>いざいりょうで、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>手<rt>て</rt></ruby>で<ruby>作<rt>つく</rt></ruby>る。Flite Test も、まったく<ruby>同<rt>おな</rt></ruby>じ<ruby>考<rt>かんが</rt></ruby>えです。</span>
+    </p>
+    <div class="match">
+      <div class="side">
+        <h4>WHAT YOU DO NOW</h4>
+        <p class="big"><span class="x-en">A $10,000 car, fixed for $1,000</span><span class="x-ja">1<ruby>万<rt>まん</rt></ruby>ドルの<ruby>車<rt>くるま</rt></ruby>を1000ドルで</span></p>
+        <p><span class="x-en">Two weeks. One expensive part. And at the end it is genuinely <i>your</i> car, in a way a bought one never is.</span><span class="x-ja">2しゅうかん。<ruby>高<rt>たか</rt></ruby>い<ruby>部品<rt>ぶひん</rt></ruby>は1つだけ。そして、それは「<ruby>自分<rt>じぶん</rt></ruby>の<ruby>車<rt>くるま</rt></ruby>」になります。</span></p>
+      </div>
+      <div class="vs"><span>SAME THING</span></div>
+      <div class="side">
+        <h4>WHAT THEY DO THERE</h4>
+        <p class="big"><span class="x-en">A flying airplane, from a flat sheet</span><span class="x-ja">1<ruby>枚<rt>まい</rt></ruby>の<ruby>板<rt>いた</rt></ruby>から、<ruby>飛<rt>と</rt></ruby>ぶ<ruby>飛行機<rt>ひこうき</rt></ruby></span></p>
+        <p><span class="x-en">Foam board, hot glue, a knife. Build it in an afternoon, crash it, glue it, fly it again before dinner.</span><span class="x-ja">はっぽうスチロールと、のりと、ナイフ。<ruby>午後<rt>ごご</rt></ruby>に<ruby>作<rt>つく</rt></ruby>って、<ruby>落<rt>お</rt></ruby>ちて、<ruby>直<rt>なお</rt></ruby>して、<ruby>夜<rt>よる</rt></ruby>ごはんの<ruby>前<rt>まえ</rt></ruby>にまた<ruby>飛<rt>と</rt></ruby>ばします。</span></p>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:20px">
+      <span class="x-en">Two things to chase while you are there, given what you have been into lately: the <b>3D-printed parts</b> people bring to the build tents (motor mounts, custom hardware — the same modeling you wanted to try), and the <b>DARPA drone teams</b>. You have been building with Claude Code and thinking about making your own game; that is the same muscle those teams use, just aimed at something that has to leave the ground.</span>
+      <span class="x-ja">あなたは<ruby>今<rt>いま</rt></ruby>、3Dプリンターと、AIでゲームを<ruby>作<rt>つく</rt></ruby>ることに<ruby>興味<rt>きょうみ</rt></ruby>がありますね。<ruby>会場<rt>かいじょう</rt></ruby>には、3Dプリンターで<ruby>部品<rt>ぶひん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>る<ruby>人<rt>ひと</rt></ruby>がたくさんいます。ぜひ<ruby>見<rt>み</rt></ruby>てください。</span>
+    </p>
+  </section>
+
+  <!-- 04 videos -->
+  <section class="reveal">
+    <p class="eyebrow">04 · WATCH BEFORE YOU GO</p>
+    <h2><span class="x-en">Three videos, about 30 minutes total</span><span class="x-ja"><ruby>行<rt>い</rt></ruby>く<ruby>前<rt>まえ</rt></ruby>に<ruby>見<rt>み</rt></ruby>る<ruby>動画<rt>どうが</rt></ruby>・3<ruby>本<rt>ぼん</rt></ruby></span></h2>
+    <p class="lead">
+      <span class="x-en">Watch these and you will walk in already knowing what you are looking at. The last one is a 360° video — drag inside the frame to look around the cockpit.</span>
+      <span class="x-ja">これを<ruby>見<rt>み</rt></ruby>ておくと、<ruby>当日<rt>とうじつ</rt></ruby>もっと<ruby>楽<rt>たの</rt></ruby>しくなります。<ruby>最後<rt>さいご</rt></ruby>の<ruby>動画<rt>どうが</rt></ruby>は360<ruby>度<rt>ど</rt></ruby>です。<ruby>画面<rt>がめん</rt></ruby>を<ruby>指<rt>ゆび</rt></ruby>で<ruby>動<rt>うご</rt></ruby>かせます。</span>
+    </p>
+    <div class="vids">
+      <article class="vid">
+        <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/Y446OLnh8yQ" title="Flite Fest Recap 2024 - Part 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        <div class="vb"><h3>Flite Fest Recap 2024</h3>
+        <p><span class="x-en">What the event actually feels like, from Flite Test themselves.</span><span class="x-ja">イベントのふんいきがわかります。</span></p></div>
+      </article>
+      <article class="vid">
+        <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/qqiulpdUgro" title="XB-70 Valkyrie feature from the National Museum of the USAF" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        <div class="vb"><h3>XB-70 Valkyrie</h3>
+        <p><span class="x-en">The museum's own feature on the aircraft you will meet in FIND 02.</span><span class="x-ja"><ruby>博物館<rt>はくぶつかん</rt></ruby>の<ruby>公式<rt>こうしき</rt></ruby><ruby>動画<rt>どうが</rt></ruby>です。</span></p></div>
+      </article>
+      <article class="vid">
+        <div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/cv5woYTViO0" title="USAF Museum 360: Inside the SR-71 cockpit" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        <div class="vb"><h3>Inside the SR-71 · 360°</h3>
+        <p><span class="x-en">Sit in the cockpit before you stand next to the real one.</span><span class="x-ja">SR-71の<ruby>中<rt>なか</rt></ruby>を360<ruby>度<rt>ど</rt></ruby><ruby>見<rt>み</rt></ruby>られます。</span></p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 05 prep -->
+  <section class="reveal">
+    <p class="eyebrow">05 · LEARN THIS BEFORE YOU GO</p>
+    <h2><span class="x-en">Six things worth knowing in advance</span><span class="x-ja"><ruby>前<rt>まえ</rt></ruby>に<ruby>知<rt>し</rt></ruby>っておくと<ruby>便利<rt>べんり</rt></ruby>なこと</span></h2>
+    <p class="lead">
+      <span class="x-en">None of this is difficult. It is the stuff people wish they had known on the drive in.</span>
+      <span class="x-ja">むずかしくありません。<ruby>知<rt>し</rt></ruby>っていると、<ruby>当日<rt>とうじつ</rt></ruby>らくです。</span>
+    </p>
+    <div class="prep">
+      <div class="pk"><h3><span class="n">01</span><span class="x-en">The museum is four separate buildings</span><span class="x-ja"><ruby>建物<rt>たてもの</rt></ruby>は4つあります</span></h3>
+        <p><span class="x-en">Early Years, WWII, Korea &amp; Southeast Asia, Cold War, Missiles, R&amp;D, Space, Global Reach and Presidential. Decide before you walk in which two you actually want, or you will spend the day in building one.</span><span class="x-ja"><ruby>全部<rt>ぜんぶ</rt></ruby>は<ruby>見<rt>み</rt></ruby>られません。<ruby>先<rt>さき</rt></ruby>に「どこを<ruby>見<rt>み</rt></ruby>るか」を<ruby>決<rt>き</rt></ruby>めてください。</span></p></div>
+
+      <div class="pk"><h3><span class="n">02</span><span class="x-en">Bring your own batteries, charged</span><span class="x-ja">バッテリーは<ruby>充電<rt>じゅうでん</rt></ruby>してから</span></h3>
+        <p><span class="x-en">Charging stations at any RC event are always crowded. Arrive with everything full, and bring a LiPo-safe bag. Heat plus a hot car is the classic Flite Fest mistake.</span><span class="x-ja"><ruby>会場<rt>かいじょう</rt></ruby>の<ruby>充電<rt>じゅうでん</rt></ruby>き は、いつもこんでいます。<ruby>家<rt>いえ</rt></ruby>で<ruby>充電<rt>じゅうでん</rt></ruby>してください。</span></p></div>
+
+      <div class="pk"><h3><span class="n">03</span><span class="x-en">Know your model's weight class</span><span class="x-ja">じぶんの<ruby>機体<rt>きたい</rt></ruby>の<ruby>重<rt>おも</rt></ruby>さ</span></h3>
+        <p><span class="x-en">Check the current registration and safety rules for recreational RC flight before the event, and follow whatever the field marshals brief on site — their call always wins over anything you read at home.</span><span class="x-ja"><ruby>会場<rt>かいじょう</rt></ruby>の<ruby>係<rt>かかり</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>の<ruby>指示<rt>しじ</rt></ruby>が、いつも<ruby>一番<rt>いちばん</rt></ruby><ruby>大事<rt>だいじ</rt></ruby>です。</span></p></div>
+
+      <div class="pk"><h3><span class="n">04</span><span class="x-en">Dayton is where flight was invented</span><span class="x-ja">デイトンは、<ruby>飛行機<rt>ひこうき</rt></ruby>が<ruby>生<rt>う</rt></ruby>まれた<ruby>町<rt>まち</rt></ruby></span></h3>
+        <p><span class="x-en">The Wright brothers were bicycle mechanics here who built an airplane in a shop. You are a person who fixes vehicles in a garage. Read one page about them before you go — it lands differently.</span><span class="x-ja">ライト<ruby>兄弟<rt>きょうだい</rt></ruby>は、この<ruby>町<rt>まち</rt></ruby>の<ruby>自転車<rt>じてんしゃ</rt></ruby>やさんでした。<ruby>自分<rt>じぶん</rt></ruby>で<ruby>飛行機<rt>ひこうき</rt></ruby>を<ruby>作<rt>つく</rt></ruby>りました。あなたと<ruby>似<rt>に</rt></ruby>ていますね。</span></p></div>
+
+      <div class="pk"><h3><span class="n">05</span><span class="x-en">Sun, water, and a folding chair</span><span class="x-ja"><ruby>水<rt>みず</rt></ruby>と<ruby>日<rt>ひ</rt></ruby>やけ<ruby>止<rt>ど</rt></ruby>めと、いす</span></h3>
+        <p><span class="x-en">An open flying field has no shade. Sunscreen, a hat, more water than you think, and a chair — because you will end up watching for hours without meaning to.</span><span class="x-ja"><ruby>原<rt>はら</rt>っぱ</ruby>には、かげがありません。<ruby>帽子<rt>ぼうし</rt></ruby>と<ruby>水<rt>みず</rt></ruby>をわすれないでください。</span></p></div>
+
+      <div class="pk"><h3><span class="n">06</span><span class="x-en">Ten Japanese words, that is all</span><span class="x-ja"><ruby>日本語<rt>にほんご</rt></ruby>は10<ruby>語<rt>ご</rt></ruby>だけ</span></h3>
+        <p><span class="x-en">Do not try to study a chapter. Learn the six aircraft words in section 07 and the phrases in section 09 — that is a realistic amount to actually use in one day.</span><span class="x-ja">たくさんおぼえなくていいです。<ruby>下<rt>した</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>だけで<ruby>十分<rt>じゅうぶん</rt></ruby>です。</span></p></div>
+    </div>
+  </section>
+
+  <!-- 06 day plan -->
+  <section class="reveal">
+    <p class="eyebrow">06 · SUGGESTED SORTIE</p>
+    <h2><span class="x-en">How to spend the day so you don't burn out by noon</span><span class="x-ja"><ruby>当日<rt>とうじつ</rt></ruby>のおすすめプラン</span></h2>
+    <p class="lead">
+      <span class="x-en">It is a straight shot east from Indiana, so you can be there early. Ohio in August is hot, and the museum is air-conditioned and free — which decides most of this plan for you.</span>
+      <span class="x-ja">インディアナから<ruby>東<rt>ひがし</rt></ruby>へ<ruby>行<rt>い</rt></ruby>くだけです。<ruby>朝<rt>あさ</rt></ruby><ruby>早<rt>はや</rt></ruby>く<ruby>行<rt>い</rt></ruby>けます。8<ruby>月<rt>がつ</rt></ruby>は<ruby>暑<rt>あつ</rt></ruby>いので、<ruby>昼<rt>ひる</rt></ruby>は<ruby>博物館<rt>はくぶつかん</rt></ruby>の<ruby>中<rt>なか</rt></ruby>がいいです。</span>
+    </p>
+    <ol class="day">
+      <li><span class="tm">EARLY</span><div>
+        <h3><span class="x-en">Fly first, while the air is calm</span><span class="x-ja"><ruby>朝<rt>あさ</rt></ruby>：<ruby>先<rt>さき</rt></ruby>に<ruby>飛<rt>と</rt></ruby>ばす</span></h3>
+        <p><span class="x-en">Morning air is smooth and the field is quiet. Wind builds as the ground heats up. Get your best flights in before the day turns bumpy.</span><span class="x-ja"><ruby>朝<rt>あさ</rt></ruby>は<ruby>風<rt>かぜ</rt></ruby>が<ruby>静<rt>しず</rt></ruby>かです。<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>時間<rt>じかん</rt></ruby>です。</span></p></div></li>
+      <li><span class="tm">MID-AM</span><div>
+        <h3><span class="x-en">Walk the build tents</span><span class="x-ja"><ruby>午前<rt>ごぜん</rt></ruby>：<ruby>作<rt>つく</rt></ruby>るテントを<ruby>見<rt>み</rt></ruby>る</span></h3>
+        <p><span class="x-en">This is the part you cannot get from a video: people repairing, modifying and arguing about their airplanes. Bring something broken and someone will help you fix it. Your Japanese mission happens here — see section 08.</span><span class="x-ja">こわれた<ruby>飛行機<rt>ひこうき</rt></ruby>を<ruby>直<rt>なお</rt></ruby>す<ruby>人<rt>ひと</rt></ruby>がいます。<ruby>動画<rt>どうが</rt></ruby>では<ruby>見<rt>み</rt></ruby>られない<ruby>場所<rt>ばしょ</rt></ruby>です。</span></p></div></li>
+      <li><span class="tm">MIDDAY</span><div>
+        <h3><span class="x-en">Escape into the hangars</span><span class="x-ja"><ruby>昼<rt>ひる</rt></ruby>：<ruby>博物館<rt>はくぶつかん</rt></ruby>へ</span></h3>
+        <p><span class="x-en">Hottest part of the day, and the museum is open 9–5, free, indoors. Four hangars — realistically you will not finish them, so pick two and do them properly.</span><span class="x-ja"><ruby>一番<rt>いちばん</rt></ruby><ruby>暑<rt>あつ</rt></ruby>い<ruby>時間<rt>じかん</rt></ruby>です。<ruby>中<rt>なか</rt></ruby>はすずしくて、ただです。</span></p></div></li>
+      <li><span class="tm">AFTERNOON</span><div>
+        <h3><span class="x-en">RC air combat and the crazy builds</span><span class="x-ja"><ruby>午後<rt>ごご</rt></ruby>：バトルを<ruby>見<rt>み</rt></ruby>る</span></h3>
+        <p><span class="x-en">Streamer combat is the loudest and funniest thing at any Flite Fest. Watch at least one round even if you are not flying in it.</span><span class="x-ja"><ruby>飛行機<rt>ひこうき</rt></ruby>のバトルは、とてもおもしろいです。<ruby>絶対<rt>ぜったい</rt></ruby><ruby>見<rt>み</rt></ruby>てください。</span></p></div></li>
+      <li><span class="tm">EVENING</span><div>
+        <h3><span class="x-en">Last flight, then sit down</span><span class="x-ja"><ruby>夕方<rt>ゆうがた</rt></ruby>：さいごの<ruby>一<rt>いっ</rt></ruby><ruby>回<rt>かい</rt></ruby></span></h3>
+        <p><span class="x-en">The air goes glassy again near sunset. Fly one more, then stop and actually look at where you are standing.</span><span class="x-ja"><ruby>夕方<rt>ゆうがた</rt></ruby>も<ruby>風<rt>かぜ</rt></ruby>が<ruby>静<rt>しず</rt></ruby>かです。もう<ruby>一<rt>いっ</rt></ruby><ruby>回<rt>かい</rt></ruby><ruby>飛<rt>と</rt></ruby>ばしましょう。</span></p></div></li>
+    </ol>
+  </section>
+
+  <!-- 07 finds -->
+  <section class="reveal">
+    <p class="eyebrow">07 · FIND THESE INSIDE</p>
+    <h2><span class="x-en">Six things worth crossing a hangar for</span><span class="x-ja"><ruby>絶対<rt>ぜったい</rt></ruby><ruby>見<rt>み</rt></ruby>てほしい6つ</span></h2>
+    <p class="lead">
+      <span class="x-en">Each one comes with its Japanese word, with furigana above the kanji so you can read all of it. Say it out loud while standing in front of the real thing. That is how words actually stick.</span>
+      <span class="x-ja"><ruby>漢字<rt>かんじ</rt></ruby>の<ruby>上<rt>うえ</rt></ruby>に、ひらがなを<ruby>書<rt>か</rt></ruby>きました。<ruby>本物<rt>ほんもの</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>で、<ruby>声<rt>こえ</rt></ruby>に<ruby>出<rt>だ</rt></ruby>して<ruby>言<rt>い</rt></ruby>ってみてください。</span>
+    </p>
+    <div class="finds" id="finds"></div>
+  </section>
+
+  <!-- 08 grammar -->
+  <section class="reveal">
+    <p class="eyebrow">08 · YOUR MISSION AT THE BUILD TENT</p>
+    <h2><span class="x-en">You already know how to talk about this. You did it about your car.</span><span class="x-ja">この<ruby>話<rt>はなし</rt></ruby>は、もうできます。<ruby>車<rt>くるま</rt></ruby>でやりました。</span></h2>
+    <p class="lead">
+      <span class="x-en">Everything below is grammar we practiced on 23 July, pointed at airplanes instead of cars. A build tent is full of people who made something themselves — so <b>every question you already know how to ask works there.</b> Ask one person. That is the whole mission.</span>
+      <span class="x-ja"><ruby>下<rt>した</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>は、7<ruby>月<rt>がつ</rt></ruby>23<ruby>日<rt>にち</rt></ruby>のレッスンでれんしゅうしました。<ruby>車<rt>くるま</rt></ruby>を<ruby>飛行機<rt>ひこうき</rt></ruby>に<ruby>変<rt>か</rt></ruby>えるだけです。<ruby>一人<rt>ひとり</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いてみてください。</span>
+    </p>
+    <div class="gram">
+      <div class="g"><p class="you">YOU ASKED ME THIS ABOUT YOUR CAR</p>
+        <p class="l">どれくらい<ruby>時間<rt>じかん</rt></ruby>がかかりましたか。</p>
+        <p class="romaji">dore kurai jikan ga kakarimashita ka</p>
+        <p class="gloss"><span class="x-en">"How long did it take?" — <b>ask a builder this about their airplane.</b></span><span class="x-ja"><ruby>作<rt>つく</rt></ruby>った<ruby>人<rt>ひと</rt></ruby>に、これを<ruby>聞<rt>き</rt></ruby>いてください。</span></p></div>
+      <div class="g"><p class="you">SAME PATTERN, MONEY INSTEAD OF TIME</p>
+        <p class="l">どれくらい<ruby>高<rt>たか</rt></ruby>かったですか。</p>
+        <p class="romaji">dore kurai takakatta desu ka</p>
+        <p class="gloss"><span class="x-en">"How expensive was it?" — the answer at Flite Fest is usually delightfully small.</span><span class="x-ja">「いくらでしたか」の<ruby>意味<rt>いみ</rt></ruby>です。たぶん<ruby>安<rt>やす</rt></ruby>いです。</span></p></div>
+      <div class="g"><p class="you">YOU USED THIS FOR THE TRUCK: "もう70%"</p>
+        <p class="l">もう70<ruby>%<rt>パーセント</rt></ruby>です。あと1ヶ<ruby>月<rt>げつ</rt></ruby>くらいです。</p>
+        <p class="romaji">mō nanajuppāsento desu. ato ikkagetsu kurai desu</p>
+        <p class="gloss"><span class="x-en">"It's already at 70%. About one more month to go." — <b>works for a truck and a half-built airplane, unchanged.</b></span><span class="x-ja">トラックにも、<ruby>作<rt>つく</rt></ruby>りかけの<ruby>飛行機<rt>ひこうき</rt></ruby>にも<ruby>使<rt>つか</rt></ruby>えます。</span></p></div>
+      <div class="g"><p class="you">THE COMPARISON PATTERN, A &gt; B</p>
+        <p class="l"><ruby>車<rt>くるま</rt></ruby>より<ruby>飛行機<rt>ひこうき</rt></ruby>の<ruby>方<rt>ほう</rt></ruby>が<ruby>安<rt>やす</rt></ruby>いです。</p>
+        <p class="romaji">kuruma yori hikōki no hō ga yasui desu</p>
+        <p class="gloss"><span class="x-en">"Airplanes are cheaper than cars." — I suspect you will find this out this week.</span><span class="x-ja">たぶん、<ruby>今週<rt>こんしゅう</rt></ruby>わかります。</span></p></div>
+      <div class="g"><p class="you">SAVE THIS ONE FOR OUR NEXT LESSON</p>
+        <p class="l"><ruby>一番<rt>いちばん</rt></ruby><ruby>楽<rt>たの</rt></ruby>しかったのは<ruby>何<rt>なん</rt></ruby>ですか。</p>
+        <p class="romaji">ichiban tanoshikatta no wa nan desu ka</p>
+        <p class="gloss"><span class="x-en">"What was the most fun part?" — <b>I am going to ask you exactly this.</b> Start deciding your answer on the drive home.</span><span class="x-ja"><ruby>次<rt>つぎ</rt></ruby>のレッスンで、<ruby>私<rt>わたし</rt></ruby>がこれを<ruby>聞<rt>き</rt></ruby>きます。<ruby>帰<rt>かえ</rt></ruby>りの<ruby>車<rt>くるま</rt></ruby>で<ruby>考<rt>かんが</rt></ruby>えてください。</span></p></div>
+    </div>
+  </section>
+
+  <!-- 09 phrases -->
+  <section class="reveal">
+    <p class="eyebrow">09 · SAY THESE AT THE FIELD</p>
+    <h2><span class="x-en">Seven short ones, for the flight line</span><span class="x-ja"><ruby>現地<rt>げんち</rt></ruby>で<ruby>使<rt>つか</rt></ruby>う<ruby>短<rt>みじか</rt></ruby>い7つ</span></h2>
+    <p class="lead">
+      <span class="x-en">Real Japanese, not textbook Japanese. Try them on your own airplane. Nobody there will understand you, which makes it excellent practice.</span>
+      <span class="x-ja">これは<ruby>本当<rt>ほんとう</rt></ruby>の<ruby>日本語<rt>にほんご</rt></ruby>です。<ruby>教科書<rt>きょうかしょ</rt></ruby>の<ruby>日本語<rt>にほんご</rt></ruby>ではありません。</span>
+    </p>
+    <div class="ph-grid">
+      <div class="ph"><p class="l j">いってきます！</p><p class="romaji">ittekimasu</p>
+        <p class="gloss"><span class="x-en">"Here I go!" — say it right before you launch.</span><span class="x-ja"><ruby>飛<rt>と</rt></ruby>ばす<ruby>前<rt>まえ</rt></ruby>に<ruby>言<rt>い</rt></ruby>います。</span></p></div>
+      <div class="ph"><p class="l j"><ruby>飛<rt>と</rt></ruby>んだ！</p><p class="romaji">tonda</p>
+        <p class="gloss"><span class="x-en">"It flew!"</span><span class="x-ja"><ruby>飛<rt>と</rt></ruby>んだ<ruby>時<rt>とき</rt></ruby>に<ruby>言<rt>い</rt></ruby>います。</span></p></div>
+      <div class="ph"><p class="l j"><ruby>落<rt>お</rt></ruby>ちた…</p><p class="romaji">ochita</p>
+        <p class="gloss"><span class="x-en">"…it went down." The other half of this hobby.</span><span class="x-ja"><ruby>落<rt>お</rt></ruby>ちた<ruby>時<rt>とき</rt></ruby>に<ruby>言<rt>い</rt></ruby>います。</span></p></div>
+      <div class="ph"><p class="l j"><ruby>大丈夫<rt>だいじょうぶ</rt></ruby>、<ruby>直<rt>なお</rt></ruby>せます。</p><p class="romaji">daijōbu, naosemasu</p>
+        <p class="gloss"><span class="x-en">"It's fine, I can fix it." Your entire personality, in three words.</span><span class="x-ja">あなたにぴったりの<ruby>文<rt>ぶん</rt></ruby>です。</span></p></div>
+      <div class="ph"><p class="l j"><ruby>自分<rt>じぶん</rt></ruby>で<ruby>作<rt>つく</rt></ruby>りました。</p><p class="romaji">jibun de tsukurimashita</p>
+        <p class="gloss"><span class="x-en">"I built it myself." Say this one with your chest out.</span><span class="x-ja"><ruby>自慢<rt>じまん</rt></ruby>していい<ruby>文<rt>ぶん</rt></ruby>です。</span></p></div>
+      <div class="ph"><p class="l j">もう<ruby>一回<rt>いっかい</rt></ruby>！</p><p class="romaji">mō ikkai</p>
+        <p class="gloss"><span class="x-en">"One more time!"</span><span class="x-ja">もう<ruby>一度<rt>いちど</rt></ruby>やる<ruby>時<rt>とき</rt></ruby>。</span></p></div>
+      <div class="ph"><p class="l j">かっこいい！</p><p class="romaji">kakkoii</p>
+        <p class="gloss"><span class="x-en">"That is so cool!"</span><span class="x-ja"><ruby>一番<rt>いちばん</rt></ruby><ruby>大事<rt>だいじ</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>です。</span></p></div>
+    </div>
+  </section>
+
+  <!-- 10 places -->
+  <section class="reveal">
+    <p class="eyebrow">10 · WHILE YOU ARE IN DAYTON</p>
+    <h2><span class="x-en">Where to go, and where to eat</span><span class="x-ja"><ruby>近<rt>ちか</rt></ruby>くのおすすめ</span></h2>
+    <p class="lead" id="places-lead">
+      <span class="x-en">Dayton is not a stopover town for an aviation person — it is the origin. Everything below is a real, verified place with an address.</span>
+      <span class="x-ja">デイトンは、<ruby>飛行機<rt>ひこうき</rt></ruby>が<ruby>生<rt>う</rt></ruby>まれた<ruby>町<rt>まち</rt></ruby>です。<ruby>下<rt>した</rt></ruby>は<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>本当<rt>ほんとう</rt></ruby>にある<ruby>場所<rt>ばしょ</rt></ruby>です。</span>
+    </p>
+    <h3 style="font-size:14px;font-family:var(--mono);letter-spacing:.14em;color:var(--sub);margin:26px 0 0">SEE</h3>
+    <div class="places" id="attractions"></div>
+    <h3 style="font-size:14px;font-family:var(--mono);letter-spacing:.14em;color:var(--sub);margin:30px 0 0">EAT</h3>
+    <div class="places" id="restaurants"></div>
+    <div class="quiet" style="margin-top:26px">
+      <h3><span class="x-en">Supplies, parking, and August</span><span class="x-ja"><ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>と<ruby>駐車場<rt>ちゅうしゃじょう</rt></ruby></span></h3>
+      <p><span class="x-en"><b>Water and sunscreen:</b> Kroger Marketplace, 1161 E Dayton Yellow Springs Rd, Fairborn — about 10 minutes out, open from 6 a.m., with a pharmacy. Buy before you get to the field, not after.</span>
+        <span class="x-ja"><b><ruby>水<rt>みず</rt></ruby>と<ruby>日<rt>ひ</rt></ruby>やけ<ruby>止<rt>ど</rt></ruby>め：</b>Kroger（<ruby>車<rt>くるま</rt></ruby>で10<ruby>分<rt>ふん</rt></ruby>・<ruby>朝<rt>あさ</rt></ruby>6<ruby>時<rt>じ</rt></ruby>から）で<ruby>先<rt>さき</rt></ruby>に<ruby>買<rt>か</rt></ruby>ってください。</span></p>
+      <p><span class="x-en"><b>Parking:</b> free, on site at the museum, and no base pass or ID check is needed to reach the museum itself.</span>
+        <span class="x-ja"><b><ruby>駐車場<rt>ちゅうしゃじょう</rt></ruby>：</b>ただです。<ruby>博物館<rt>はくぶつかん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>るのに、とくべつな<ruby>許可<rt>きょか</rt></ruby>はいりません。</span></p>
+      <p><span class="x-en"><b>August in Dayton:</b> average high around 83°F, humid, with afternoon thunderstorms possible. Bring a light rain layer — and remember the hangars are air-conditioned.</span>
+        <span class="x-ja"><b>8<ruby>月<rt>がつ</rt></ruby>のデイトン：</b>だいたい83°F（28°C）くらい。むしあついです。<ruby>午後<rt>ごご</rt></ruby>に<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>ることがあります。</span></p>
+    </div>
+  </section>
+
+  <!-- 11 quiet -->
+  <section class="reveal">
+    <p class="eyebrow">11 · ONE QUIET STOP</p>
+    <h2><span class="x-en">A hangar you and I will read differently</span><span class="x-ja"><ruby>私<rt>わたし</rt></ruby>とあなたで、<ruby>見<rt>み</rt></ruby>え<ruby>方<rt>かた</rt></ruby>がちがう<ruby>場所<rt>ばしょ</rt></ruby></span></h2>
+    <div class="quiet">
+      <h3><span class="x-en">Bockscar, and the Zero, under one roof</span><span class="x-ja">ボックスカーと<ruby>零戦<rt>ぜろせん</rt></ruby></span></h3>
+      <p><span class="x-en">In the WWII gallery you will pass <b>Bockscar</b> — the B-29 that carried out the atomic bombing of Nagasaki — and, in the same building, the Zero. For an American aviation fan those are two exhibits. For a Japanese person they are two different kinds of silence.</span>
+        <span class="x-ja"><ruby>戦争<rt>せんそう</rt></ruby>のへやに、<b>ボックスカー</b>という<ruby>飛行機<rt>ひこうき</rt></ruby>があります。<ruby>長崎<rt>ながさき</rt></ruby>に<ruby>原爆<rt>げんばく</rt></ruby>を<ruby>落<rt>お</rt></ruby>とした<ruby>飛行機<rt>ひこうき</rt></ruby>です。<ruby>同<rt>おな</rt></ruby>じたてものに、<ruby>零戦<rt>ぜろせん</rt></ruby>もあります。</span></p>
+      <p><span class="x-en">I am not telling you this to make your day heavy. I am telling you because you are learning my language, and a language comes attached to a history. Stand there a minute longer than you were going to. That is all.</span>
+        <span class="x-ja">あなたは<ruby>私<rt>わたし</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しています。<ruby>言葉<rt>ことば</rt></ruby>には、<ruby>歴史<rt>れきし</rt></ruby>もついてきます。すこしだけ、<ruby>長<rt>なが</rt></ruby>く<ruby>立<rt>た</rt></ruby>っていてください。それだけです。</span></p>
+    </div>
+  </section>
+
+  <!-- 12 callback -->
+  <section class="reveal">
+    <p class="eyebrow">12 · SOMETHING YOU SAID LAST LESSON</p>
+    <h2><span class="x-en">You already had the right idea about this</span><span class="x-ja">あなたは、もう<ruby>気<rt>き</rt></ruby>づいていました</span></h2>
+    <div class="quiet warm">
+      <blockquote><span class="x-en">"The old circus was bigger — more people, more animals. But now it continues as a culture."</span><span class="x-ja">「<ruby>昔<rt>むかし</rt></ruby>のサーカスは<ruby>大<rt>おお</rt></ruby>きかった。でも<ruby>今<rt>いま</rt></ruby>は、<ruby>文化<rt>ぶんか</rt></ruby>として<ruby>続<rt>つづ</rt></ruby>いている」</span></blockquote>
+      <p><span class="x-en">You said that about the circus you went to with your parents, and you reached for the word <span class="j"><ruby>文化<rt>ぶんか</rt></ruby></span> (<span class="romaji">bunka</span> — culture) by yourself. It was the best thing you said all lesson.</span>
+        <span class="x-ja">あなたは<ruby>自分<rt>じぶん</rt></ruby>で「<ruby>文化<rt>ぶんか</rt></ruby>」という<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>いました。あの<ruby>日<rt>ひ</rt></ruby>で<ruby>一番<rt>いちばん</rt></ruby>よかったです。</span></p>
+      <p><span class="x-en">Keep it in your pocket this week, because you are about to walk through the exact same shape: one hangar holds the biggest machines a country could possibly build, and outside on the grass, people are making airplanes out of foam board and glue. The huge version is in a museum now. The small hand-built version is still alive — and you will be standing in the middle of it.</span>
+        <span class="x-ja"><ruby>今週<rt>こんしゅう</rt></ruby>も<ruby>同<rt>おな</rt></ruby>じです。<ruby>大<rt>おお</rt></ruby>きい<ruby>飛行機<rt>ひこうき</rt></ruby>は、<ruby>今<rt>いま</rt></ruby>は<ruby>博物館<rt>はくぶつかん</rt></ruby>にあります。でも<ruby>外<rt>そと</rt></ruby>では、<ruby>人<rt>ひと</rt></ruby>が<ruby>手<rt>て</rt></ruby>で<ruby>飛行機<rt>ひこうき</rt></ruby>を<ruby>作<rt>つく</rt></ruby>っています。<ruby>文化<rt>ぶんか</rt></ruby>は<ruby>生<rt>い</rt></ruby>きています。</span></p>
+    </div>
+  </section>
+
+  <!-- 13 homework -->
+  <section class="reveal">
+    <p class="eyebrow">13 · YOUR HOMEWORK</p>
+    <h2><span class="x-en">Come back with material</span><span class="x-ja">しゅくだい</span></h2>
+    <p class="lead">
+      <span class="x-en">Do not write anything down at the event — you talk best from photos, so just collect photos and we will build the whole lesson out of them.</span>
+      <span class="x-ja"><ruby>会場<rt>かいじょう</rt></ruby>では、メモしなくていいです。<ruby>写真<rt>しゃしん</rt></ruby>だけ<ruby>撮<rt>と</rt></ruby>ってください。<ruby>次<rt>つぎ</rt></ruby>のレッスンは、その<ruby>写真<rt>しゃしん</rt></ruby>で<ruby>話<rt>はな</rt></ruby>します。</span>
+    </p>
+    <ul class="check">
+      <li><input type="checkbox" id="c1"><label for="c1"><span class="x-en">Take <b>3 photos</b>: an airplane someone built, an aircraft in the museum that stopped you, and one of you actually at the field.</span><span class="x-ja"><ruby>写真<rt>しゃしん</rt></ruby>を3<ruby>枚<rt>まい</rt></ruby><ruby>撮<rt>と</rt></ruby>ります。</span></label></li>
+      <li><input type="checkbox" id="c2"><label for="c2"><span class="x-en">Ask <b>one person</b> at the build tent <span class="k j">どれくらいかかりましたか</span> — then remember roughly what they answered.</span><span class="x-ja"><ruby>一人<rt>ひとり</rt></ruby>に「<span class="k j">どれくらいかかりましたか</span>」と<ruby>聞<rt>き</rt></ruby>きます。</span></label></li>
+      <li><input type="checkbox" id="c3"><label for="c3"><span class="x-en">Say <span class="k j">かっこいい！</span> out loud, in public, to a real airplane. At least once.</span><span class="x-ja"><span class="k j">かっこいい！</span>と<ruby>大<rt>おお</rt></ruby>きい<ruby>声<rt>こえ</rt></ruby>で<ruby>言<rt>い</rt></ruby>います。</span></label></li>
+      <li><input type="checkbox" id="c4"><label for="c4"><span class="x-en">Next lesson: describe each photo to me in Japanese, <b>one sentence each</b>. That is the entire assignment.</span><span class="x-ja"><ruby>次<rt>つぎ</rt></ruby>のレッスンで、<ruby>写真<rt>しゃしん</rt></ruby>を1<ruby>枚<rt>まい</rt></ruby>ずつ<ruby>説明<rt>せつめい</rt></ruby>します。1<ruby>文<rt>ぶん</rt></ruby>でいいです。</span></label></li>
+      <li><input type="checkbox" id="c5"><label for="c5"><span class="x-en">And bring the truck photo too. It should be past 70% by then.</span><span class="x-ja">トラックの<ruby>写真<rt>しゃしん</rt></ruby>も<ruby>見<rt>み</rt></ruby>せてください。</span></label></li>
+      <li><input type="checkbox" id="c6"><label for="c6"><span class="x-en">Drink more water than you think you need. Ohio in August is not a joke.</span><span class="x-ja"><ruby>水<rt>みず</rt></ruby>をたくさん<ruby>飲<rt>の</rt></ruby>んでください。</span></label></li>
+    </ul>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Practical:</b> the museum is open 9 a.m.–5 p.m. daily, admission and parking are free, and it is four hangars across 19 acres — wear the shoes you can walk all day in. Flite Fest one-day tickets are honored on any day of the event.</p>
+    <p>Check the official pages before you drive out — schedules and gate times move.</p>
+    <div class="links">
+      <a href="https://www.flitefest.com/" target="_blank" rel="noopener">FLITEFEST.COM</a>
+      <a href="https://www.nationalmuseum.af.mil/" target="_blank" rel="noopener">NATIONALMUSEUM.AF.MIL</a>
+      <a href="https://open-meteo.com/" target="_blank" rel="noopener">WEATHER: OPEN-METEO</a>
+    </div>
+    <p class="sig j"><ruby>楽<rt>たの</rt></ruby>しんできてね、Lance！ たくさん<ruby>飛<rt>と</rt></ruby>ばして、たくさん<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>ってきてください。<br>— ユウキ</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
