@@ -367,9 +367,6 @@ function renderPlaces() {
       fig = '<figure class="pshot">' +
         '<img src="img/places/' + ph.f + '.jpg" alt="' + ph.alt + '" loading="lazy" ' +
         'onerror="this.closest(\'figure\').remove()">' +
-        (ph.actual ? '' :
-          '<span class="illus"><span class="x-en">DISH SHOWN, NOT THE SHOP</span>' +
-          '<span class="x-ja">りょうりの イメージ</span></span>') +
       '</figure>';
     }
 
