@@ -320,6 +320,39 @@ var PLACES = {
   ]
 };
 
+/* Keyed by the exact place name above, so reordering PLACES can never silently
+   attach the wrong photo to the wrong business.
+   `actual: false` means the photo shows the signature dish rather than the shop
+   itself — those cards carry a visible label so nobody is misled. */
+var PHOTOS = {
+  'Huffman Prairie Flying Field':
+    { f: 'huffman-prairie', actual: true, alt: 'The Wright brothers hangar replica on Huffman Prairie Flying Field', credit: 'Ismael Laos · CC BY-SA 4.0' },
+  'Carillon Historical Park':
+    { f: 'carillon', actual: true, alt: 'Wright Hall at Carillon Historical Park, Dayton', credit: 'Nyttend · Public domain' },
+  'The Wright Cycle Company Complex':
+    { f: 'wright-cycle', actual: true, alt: 'The Wright Cycle Company building on South Williams Street, Dayton', credit: 'Cory Hartman · CC BY-SA 3.0' },
+  "America's Packard Museum":
+    { f: 'packard', actual: true, alt: "America's Packard Museum, the former Citizens Motor Car Company showroom", credit: 'Antony-22 · CC BY-SA 4.0' },
+  'Wright "B" Flyer Inc.':
+    { f: 'wright-b-flyer', actual: true, alt: 'The Wright B Flyer hangar and free museum, Miamisburg', credit: 'Jtesla16 · Public domain' },
+  'Hawthorn Hill':
+    { f: 'hawthorn-hill', actual: true, alt: "Hawthorn Hill, Orville Wright's mansion in Oakwood", credit: 'Zeist85 · Public domain' },
+  "Marion's Piazza":
+    { f: 'marions', actual: true, alt: "The Marion's Piazza sign, Dayton", credit: 'Jtesla16 (J. Miers) · CC BY-SA 3.0' },
+  'Fairborn Family Diner & Restaurant':
+    { f: 'fairborn-diner', actual: false, alt: 'A classic American diner breakfast: eggs, bacon, home fries and toast', credit: 'Evan-Amos · Public domain' },
+  'Taste of Jerusalem':
+    { f: 'taste-jerusalem', actual: false, alt: 'A chicken shawarma wrap', credit: 'Andy Li · CC0' },
+  "Giovanni's Pizzeria e Ristorante Italiano":
+    { f: 'giovannis', actual: true, alt: "Giovanni's Italian Ristorante storefront, Fairborn", credit: 'loganrickert · CC BY 2.0' },
+  "Young's Jersey Dairy":
+    { f: 'youngs', actual: true, alt: "The red barn at Young's Jersey Dairy, Yellow Springs", credit: 'Todd Fowler · CC BY-SA 2.0' },
+  '2nd Street Market':
+    { f: 'second-street', actual: true, alt: '2nd Street Public Market, Dayton', credit: 'Texas141 · CC BY-SA 3.0' },
+  'The Pine Club':
+    { f: 'pine-club', actual: true, alt: 'The entrance of The Pine Club steakhouse, Dayton', credit: 'Valereee · CC0' }
+};
+
 function renderPlaces() {
   function card(p, kind) {
     var maps = 'https://www.google.com/maps/search/?api=1&query=' +
@@ -327,14 +360,30 @@ function renderPlaces() {
     var meta = kind === 'see'
       ? [p.drive, p.admission].filter(Boolean).join('  ·  ')
       : [p.cuisine, p.price, p.distance].filter(Boolean).join('  ·  ');
-    return '<article class="place">' +
-      '<div class="top"><h3>' + p.name + '</h3>' +
-        (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') + '</div>' +
-      '<p class="addr">' + p.address + '</p>' +
-      (meta ? '<p class="meta">' + meta + '</p>' : '') +
-      '<p class="why"><span class="x-en">' + p.en + '</span><span class="x-ja">' + p.ja + '</span></p>' +
-      '<a class="go" href="' + maps + '" target="_blank" rel="noopener">OPEN IN MAPS</a>' +
-      (p.url ? ' <a class="go" href="' + p.url + '" target="_blank" rel="noopener">WEBSITE</a>' : '') +
+
+    var ph = PHOTOS[p.name];
+    var fig = '';
+    if (ph) {
+      fig = '<figure class="pshot">' +
+        '<img src="img/places/' + ph.f + '.jpg" alt="' + ph.alt + '" loading="lazy" ' +
+        'onerror="this.closest(\'figure\').remove()">' +
+        (ph.actual ? '' :
+          '<span class="illus"><span class="x-en">DISH SHOWN, NOT THE SHOP</span>' +
+          '<span class="x-ja">りょうりの イメージ</span></span>') +
+      '</figure>';
+    }
+
+    return '<article class="place">' + fig +
+      '<div class="pbody">' +
+        '<div class="top"><h3>' + p.name + '</h3>' +
+          (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') + '</div>' +
+        '<p class="addr">' + p.address + '</p>' +
+        (meta ? '<p class="meta">' + meta + '</p>' : '') +
+        '<p class="why"><span class="x-en">' + p.en + '</span><span class="x-ja">' + p.ja + '</span></p>' +
+        '<a class="go" href="' + maps + '" target="_blank" rel="noopener">OPEN IN MAPS</a>' +
+        (p.url ? ' <a class="go" href="' + p.url + '" target="_blank" rel="noopener">WEBSITE</a>' : '') +
+      '</div>' +
+      (ph ? '<p class="credit">Photo: ' + ph.credit + '</p>' : '') +
     '</article>';
   }
   var a = document.getElementById('attractions');
